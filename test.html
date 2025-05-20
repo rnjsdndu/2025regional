@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .hover-underline {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .hover-underline::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      width: 100%;
+      background-color: currentColor;
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+
+    .hover-underline.animate-in::after {
+      animation: line-in 0.4s forwards;
+    }
+
+    .hover-underline.animate-out::after {
+      animation: line-out 0.4s forwards;
+    }
+
+    @keyframes line-in {
+      0% {
+        transform: translateX(-100%);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateX(0%);
+        opacity: 1;
+      }
+    }
+
+    @keyframes line-out {
+      0% {
+        transform: translateX(0%);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+  <span class="hover-underline">호버해보세요</span>
+  <script>
+    const el = document.querySelector('.hover-underline');
+
+    el.addEventListener('mouseenter', () => {
+      el.classList.remove('animate-out');
+      void el.offsetWidth; // 강제 리플로우로 애니메이션 재시작
+      el.classList.add('animate-in');
+    });
+
+    el.addEventListener('mouseleave', () => {
+      el.classList.remove('animate-in');
+      void el.offsetWidth;
+      el.classList.add('animate-out');
+    });
+  </script>
+</body>
+
+</html>
